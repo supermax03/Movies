@@ -5,13 +5,13 @@ from movies.movies import Movie
 
 class IMDB:
     __url__ = 'http://www.imdb.com'
-    movies = {"new": "movies-coming-soon/?ref_=inth_cs", "intheaters": "movies-in-theaters/?ref_=cs_inth"}
+    movies = {"new": "movies-coming-soon/{0}/?ref_=inth_cs", "intheaters": "movies-in-theaters/?ref_=cs_inth"}
 
     @staticmethod
-    def getmovies(desc):
+    def getmovies(desc, date):
         films = []
         if desc in IMDB.movies:
-            page = requests.get('/'.join((IMDB.__url__, IMDB.movies[desc])))
+            page = requests.get('/'.join((IMDB.__url__, IMDB.movies[desc])).format(date))
             soup = BeautifulSoup(page.content, "html.parser")
             items = soup.find_all('div', class_="list_item")
             for movie in items:
